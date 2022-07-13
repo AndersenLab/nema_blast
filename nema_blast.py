@@ -44,22 +44,38 @@ if len(sys.argv) > 1:
 
     # Try-catch mechanism for determining reference_input_path
     try:
-        reference_input_path = sys.argv[2]
+        secondarg = sys.argv[2]
+        if secondarg != "-m":
+            reference_input_path = sys.argv[2]
+        else:
+            reference_input_path = "bin/reference.fa"
     except:
         reference_input_path = "bin/reference.fa"
     
     try:
         modify = sys.argv[3]
-        if modify == "m":
+        if modify == "-m":
             specific = True
         else:
             specific = False
     except:
-        specific = False
+        try:
+            modify = sys.argv[2]
+            if modify == "-m":
+                specific = True
+            else:
+                specific = False
+        except:
+            specific = False
 
 else:
     query_input_path = str(input("\nEnter path to query file/directory: "))
     reference_input_path = str(input("\nEnter path to query file/directory: "))
+    modify = str(input("\nManually modify scoring system? [y/n]: "))
+    if modify == "y":
+        specific = True
+    else:
+        specific = False
 
 # ______________________________________________________________________________
 
