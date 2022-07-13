@@ -160,19 +160,19 @@ def setUpAligner():
     aligner.left_open_gap_score = float(
         input("\nCurrent left open gap score: " + 
         str(aligner.left_open_gap_score) + 
-        "\nSet left gap score: "))
+        "\nSet left open gap score: "))
     aligner.left_extend_gap_score = float(
         input("\nCurrent left extend gap score: " + 
         str(aligner.left_extend_gap_score) + 
-        "\nSet left gap score: "))
+        "\nSet left extend gap score: "))
     aligner.right_open_gap_score = float(
         input("\nCurrent right open gap score: " + 
         str(aligner.right_open_gap_score) + 
-        "\nSet right gap score: "))
+        "\nSet right open gap score: "))
     aligner.right_extend_gap_score = float(
         input("\nCurrent right extend gap score: " + 
         str(aligner.right_extend_gap_score) + 
-        "\nSet right gap score: "))
+        "\nSet right extend gap score: "))
 
     divide = str(input("\nDivide score by length of shorter sequence? [y/n]: "))
     if divide == "y":
