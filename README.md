@@ -15,6 +15,8 @@ Given a list of sequences to be queried and another list of sequences to be refe
 
     python3 nema_blast.py <query_path> <reference_path>
 
+An input file must be a properly formatted fasta (.fa) file. An input directory must contain at least one properly formatted sequence (.seq) file.
+
 If the user does not specify a reference file/directory (provides only one file/directory path), then **nema_blast.py** will use the fasta file **reference.fa** as the reference list of sequences.
 
     python3 nema_blast.py <query_path>
@@ -52,5 +54,10 @@ If the user inputs "n", then **nema_blast.py** will ask the user to manually inp
     Set right open gap score: 
     Set right extend gap score: 
     Divide score by length of shorter sequence? [y/n]: 
+    
+**nema_blast.py** will create a new directory containing a subdirectory named **alignments** which houses formatted individual alignments as well as a file named **summary.csv** which summarizes the best matches and includes additional information regarding sequence length and alignment score.
+Here is an example of using **nema_blast.py** to search the **test_data** query directory against the reference file **reference.fa**. 
+    
+    python3 nema_blast.py test_data reference.fa
     
 ## Scoring
