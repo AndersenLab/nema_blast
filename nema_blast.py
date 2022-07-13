@@ -22,7 +22,8 @@ alignment_list = []
 df = pd.DataFrame(columns = ["sequence", "best_match", 
     "sequence_length", "best_match_length", "score"])
 divide_bool = False
-check_reverse_complement = False
+check_reverse_complement = True
+specific = False
 
 # Set up the directory path
 path = os.getcwd()
@@ -46,6 +47,15 @@ if len(sys.argv) > 1:
         reference_input_path = sys.argv[2]
     except:
         reference_input_path = "bin/reference.fa"
+    
+    try:
+        modify = sys.argv[3]
+        if modify == "m":
+            specific = True
+        else:
+            specific = False
+    except:
+        specific = False
 
 else:
     query_input_path = str(input("\nEnter path to query file/directory: "))
@@ -97,17 +107,95 @@ def setUpAligner():
     '''
     global check_reverse_complement
     global divide_bool
+    global specific
+    
+    if specific:
+        revcomp = str(input("\nConsider reverse complements? [y/n]: "))
+        if revcomp == "y":
+            check_reverse_complement = True
+        else:
+            check_reverse_complement = False
+        # check_reverse_complement is global and will be used later with the 
+        # scoring system
 
-    revcomp = str(input("\nConsider reverse complements? [y/n]: "))
-    if revcomp == "y":
-        check_reverse_complement = True
+        needle = str(input("\nUse EMBOSS Needle default scoring system? [y/n]: "))
+        if needle == "y":
+            aligner.substitution_matrix = dnafull
+            aligner.internal_open_gap_score = -10
+            aligner.internal_extend_gap_score = -0.5
+            aligner.left_open_gap_score = 0
+            aligner.left_extend_gap_score = 0
+            aligner.right_open_gap_score = 0
+            aligner.right_extend_gap_score = 0
+            print("\nAlignment algorithm:", aligner.algorithm)
+            return
+
+        blastn = str(input("\nUse BLASTN default local scoring system? [y/n]: "))
+        if blastn == "y":
+            aligner.mode = 'local'
+            aligner.match_score = 2
+            aligner.mismatch_score = -3
+            aligner.open_gap_score = -7
+            aligner.extend_gap_score = -2
+            print("\nAlignment algorithm:", aligner.algorithm)
+            return
+
+        print("\nPlease manually input your scoring preferences.\n")
+
+        mat = str(input("\nUse DNAfull scoring matrix? [y/n]: "))
+
+        if mat == "y":
+            aligner.substitution_matrix = dnafull
+        else:
+            aligner.match_score = float(input("\nCurrent match score: " + 
+                str(aligner.match_score) + 
+                "\nSet match score: "))
+            aligner.mismatch_score = float(input("\nCurrent mismatch score: " + 
+                str(aligner.mismatch_score) + 
+                "\nSet mismatch score: "))
+
+        aligner.internal_open_gap_score = 0
+        aligner.internal_extend_gap_score = 0
+        aligner.left_open_gap_score = 0
+        aligner.left_extend_gap_score = 0
+        aligner.right_open_gap_score = 0
+        aligner.right_extend_gap_score = 0
+
+        aligner.internal_open_gap_score = float(
+            input("\nCurrent internal open gap score: " + 
+            str(aligner.internal_open_gap_score) + 
+            "\nSet internal gap open score: "))
+        aligner.internal_extend_gap_score = float(
+            input("\nCurrent internal extend gap score: " + 
+            str(aligner.internal_extend_gap_score) + 
+            "\nSet internal gap extend score: "))
+        aligner.left_open_gap_score = float(
+            input("\nCurrent left open gap score: " + 
+            str(aligner.left_open_gap_score) + 
+            "\nSet left open gap score: "))
+        aligner.left_extend_gap_score = float(
+            input("\nCurrent left extend gap score: " + 
+            str(aligner.left_extend_gap_score) + 
+            "\nSet left extend gap score: "))
+        aligner.right_open_gap_score = float(
+            input("\nCurrent right open gap score: " + 
+            str(aligner.right_open_gap_score) + 
+            "\nSet right open gap score: "))
+        aligner.right_extend_gap_score = float(
+            input("\nCurrent right extend gap score: " + 
+            str(aligner.right_extend_gap_score) + 
+            "\nSet right extend gap score: "))
+
+        divide = str(input("\nDivide score by length of shorter sequence? [y/n]: "))
+        if divide == "y":
+            divide_bool = True
+        else:
+            divide_bool = False
+        # divide_bool is global and will be used later with the scoring system
+
+        print("\nAlignment algorithm:", aligner.algorithm)
+        
     else:
-        check_reverse_complement = False
-    # check_reverse_complement is global and will be used later with the 
-    # scoring system
-
-    needle = str(input("\nUse EMBOSS Needle default scoring system? [y/n]: "))
-    if needle == "y":
         aligner.substitution_matrix = dnafull
         aligner.internal_open_gap_score = -10
         aligner.internal_extend_gap_score = -0.5
@@ -116,73 +204,6 @@ def setUpAligner():
         aligner.right_open_gap_score = 0
         aligner.right_extend_gap_score = 0
         print("\nAlignment algorithm:", aligner.algorithm)
-        return
-
-    blastn = str(input("\nUse BLASTN default local scoring system? [y/n]: "))
-    if blastn == "y":
-        aligner.mode = 'local'
-        aligner.match_score = 2
-        aligner.mismatch_score = -3
-        aligner.open_gap_score = -7
-        aligner.extend_gap_score = -2
-        print("\nAlignment algorithm:", aligner.algorithm)
-        return
-
-    print("\nPlease manually input your scoring preferences.\n")
-
-    mat = str(input("\nUse DNAfull scoring matrix? [y/n]: "))
-
-    if mat == "y":
-        aligner.substitution_matrix = dnafull
-    else:
-        aligner.match_score = float(input("\nCurrent match score: " + 
-            str(aligner.match_score) + 
-            "\nSet match score: "))
-        aligner.mismatch_score = float(input("\nCurrent mismatch score: " + 
-            str(aligner.mismatch_score) + 
-            "\nSet mismatch score: "))
-
-    aligner.internal_open_gap_score = 0
-    aligner.internal_extend_gap_score = 0
-    aligner.left_open_gap_score = 0
-    aligner.left_extend_gap_score = 0
-    aligner.right_open_gap_score = 0
-    aligner.right_extend_gap_score = 0
-
-    aligner.internal_open_gap_score = float(
-        input("\nCurrent internal open gap score: " + 
-        str(aligner.internal_open_gap_score) + 
-        "\nSet internal gap open score: "))
-    aligner.internal_extend_gap_score = float(
-        input("\nCurrent internal extend gap score: " + 
-        str(aligner.internal_extend_gap_score) + 
-        "\nSet internal gap extend score: "))
-    aligner.left_open_gap_score = float(
-        input("\nCurrent left open gap score: " + 
-        str(aligner.left_open_gap_score) + 
-        "\nSet left open gap score: "))
-    aligner.left_extend_gap_score = float(
-        input("\nCurrent left extend gap score: " + 
-        str(aligner.left_extend_gap_score) + 
-        "\nSet left extend gap score: "))
-    aligner.right_open_gap_score = float(
-        input("\nCurrent right open gap score: " + 
-        str(aligner.right_open_gap_score) + 
-        "\nSet right open gap score: "))
-    aligner.right_extend_gap_score = float(
-        input("\nCurrent right extend gap score: " + 
-        str(aligner.right_extend_gap_score) + 
-        "\nSet right extend gap score: "))
-
-    divide = str(input("\nDivide score by length of shorter sequence? [y/n]: "))
-    if divide == "y":
-        divide_bool = True
-    else:
-        divide_bool = False
-    # divide_bool is global and will be used later with the scoring system
-
-    print("\nAlignment algorithm:", aligner.algorithm)
-
 ##### Methods
 
 def faToSeqRecordList(input : str) -> list:
