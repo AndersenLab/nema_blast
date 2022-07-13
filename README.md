@@ -32,7 +32,7 @@ Alternatively, the user can choose to call **nema_blast.py** without additional 
     
     python3 nema_blast.py
 
-**nema_blast.py** uses by default the "EMBOSS Needle Default Scoring System" which is explained in the next section. If the user adds a "-m" argument at the end, they will be able to modify the scoring system:
+**nema_blast.py** uses by default the "EMBOSS Needle Default Scoring System" which is explained in the next section. It also by default considers all reverse complements of the reference sequences. If the user adds a "-m" argument at the end, they will be able to modify the scoring system:
 
     python3 nema_blast.py <query_path> <reference_path> -m
     # or
