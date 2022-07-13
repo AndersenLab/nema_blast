@@ -1,7 +1,9 @@
 # nema_blast
-**nema_blast.py** is a tool for matching sequences based on pairwise alignments. 
+**nema_blast.py** is a tool for matching nucleotide sequences based on pairwise alignment scores. 
 
 Given a list of sequences to be queried and another list of sequences to be referenced, **nema_blast.py** will match each sequence from the query sequence list to a corresponding sequence from the reference sequence list with which it is best aligned.
+
+**nema_blast.py** may be more efficient at identifying the species associated with an unknown sequence than using [NCBI BLAST](https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&PAGE_TYPE=BlastSearch&LINK_LOC=blasthome) if a list of possible sequence matches (reference sequence list) can be provided.
 
 ## Software packages expected in user's PATH
 * [Anaconda (includes numpy, pandas)](https://www.anaconda.com/products/distribution)
@@ -11,7 +13,7 @@ Given a list of sequences to be queried and another list of sequences to be refe
 ## Installation
     git clone https://github.com/AndersenLab/nema_blast.git
 ## Usage
-**nema_blast.py** analyzes two files/directories and expects to receive two files/directory paths when called.
+**nema_blast.py** analyzes two files/directories. As such, **nema_blast.py** expects to receive two files/directory paths when called.
 
     python3 nema_blast.py <query_path> <reference_path>
 
@@ -61,3 +63,4 @@ Here is an example of using **nema_blast.py** to search the **test_data** query 
     python3 nema_blast.py test_data reference.fa
     
 ## Scoring
+Please reference the [Biopython documentation](http://biopython.org/DIST/docs/tutorial/Tutorial.html) for information regarding pairwise alignment scoring. Information can be found in section 6.6.2 and section 6.7.
