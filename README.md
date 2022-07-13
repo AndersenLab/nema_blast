@@ -63,4 +63,51 @@ Here is an example of using **nema_blast.py** to search the **test_data** query 
     python3 nema_blast.py test_data bin/reference.fa
     
 ## Scoring
-Please reference the [Biopython documentation](http://biopython.org/DIST/docs/tutorial/Tutorial.html) for information regarding pairwise alignment scoring. Information can be found in section 6.6.2 and section 6.7.
+Please reference the [Biopython documentation](http://biopython.org/DIST/docs/tutorial/Tutorial.html) for information regarding pairwise alignment scoring. It is important to understand how msmatches and gaps are scored. Information can be found in section 6.6.2 and section 6.7.
+
+The [DNAfull (also known as EDNAFULL) scoring matrix](https://rosalind.info/glossary/dnafull/) is commonly used for DNA and RNA alignment problems:
+
+$$
+\begin{bmatrix}
+  &  A  & T &  G &  C &  S &  W  & R &  Y &  K &  M &  B &  V &  H &  D &  N \\
+A &  5 & -4 & -4 & -4 & -4 &  1  & 1 & -4 & -4 &  1 & -4 & -1 & -1 & -1 & -2 \\
+T & -4 &  5 & -4 & -4 & -4 &  1  &-4 &  1 &  1 & -4 & -1 & -4 & -1 & -1 & -2 \\
+G & -4 & -4 &  5 & -4 &  1 & -4  & 1 & -4 &  1 & -4 & -1 & -1 & -4 & -1 & -2 \\
+C & -4 & -4 & -4 &  5 &  1 & -4  &-4 &  1 & -4 &  1 & -1 & -1 & -1 & -4 & -2 \\
+S & -4 & -4 &  1 &  1 & -1 & -4  &-2 & -2 & -2 & -2 & -1 & -1 & -3 & -3 & -1 \\
+W &  1 &  1 & -4 & -4 & -4 & -1  &-2 & -2 & -2 & -2 & -3 & -3 & -1 & -1 & -1 \\
+R &  1 & -4 &  1 & -4 & -2 & -2  &-1 & -4 & -2 & -2 & -3 & -1 & -3 & -1 & -1 \\
+Y & -4 &  1 & -4 &  1 & -2 & -2  &-4 & -1 & -2 & -2 & -1 & -3 & -1 & -3 & -1 \\
+K & -4  & 1 &  1 & -4 & -2 & -2  &-2 & -2 & -1 & -4 & -1 & -3 & -3 & -1 & -1 \\
+M &  1 & -4 & -4 &  1 & -2 & -2  &-2 & -2 & -4 & -1 & -3 & -1 & -1 & -3 & -1 \\
+B & -4 & -1 & -1 & -1 & -1 & -3  &-3 & -1 & -1 & -3 & -1 & -2 & -2 & -2 & -1 \\
+V & -1 & -4 & -1 & -1 & -1 & -3  &-1 & -3 & -3 & -1 & -2 & -1 & -2 & -2 & -1 \\
+H & -1 & -1 & -4 & -1 & -3 & -1  &-3 & -1 & -3 & -1 & -2 & -2 & -1 & -2 & -1 \\
+D & -1 & -1 & -1 & -4 & -3 & -1  &-1 & -3 & -1 & -3 & -2 & -2 & -2 & -1 & -1 \\
+N & -2 & -2 & -2 & -2 & -1 & -1  &-1 & -1 & -1 & -1 & -1 & -1 & -1 & -1 & -1
+\end{bmatrix}
+$$
+
+Details of the [EMBOSS Needle default scoring system](https://www.ebi.ac.uk/Tools/psa/emboss_needle/):
+* scoring matrix: DNAfull
+* match: N/A
+* mismatch: N/A
+* internal open gap: -10
+* internal extend gap: -0.5
+* right open gap: 0
+* right extend gap: 0
+* left open gap: 0
+* left extend gap: 0
+* local/global alignment: global
+
+Details of the [BLASTN default local scoring system](http://biopython.org/DIST/docs/tutorial/Tutorial.html#sec118) (as described in the Biopython documentation):
+* scoring matrix: N/A
+* match: 2
+* mismatch: -3
+* internal open gap: -7
+* internal extend gap: -2
+* right open gap: -7
+* right extend gap: -2
+* left open gap: -7
+* left extend gap: -2
+* local/global alignment: local
