@@ -60,7 +60,7 @@ If the user inputs "n", then **nema_blast.py** will ask the user to manually inp
 **nema_blast.py** will create a new directory containing a subdirectory named **alignments** which houses formatted individual alignments as well as a file named **summary.csv** which summarizes the best matches and includes additional information regarding sequence length and alignment score.
 Here is an example of using **nema_blast.py** to search the **test_data** query directory against the reference file **reference.fa**. 
     
-    python3 nema_blast.py test_data reference.fa
+    python3 nema_blast.py test_data bin/reference.fa
     
 ## Scoring
 Please reference the [Biopython documentation](http://biopython.org/DIST/docs/tutorial/Tutorial.html) for information regarding pairwise alignment scoring. Information can be found in section 6.6.2 and section 6.7.
