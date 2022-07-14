@@ -386,7 +386,7 @@ d = date.today()
 calc_df(query_input_path, reference_input_path)
 
 # Make new directory to store results
-new_dir_name = path +  "/pC_" + \
+new_dir_name = path +  "/nb_" + \
     os.path.basename(query_input_path) + \
     "_" + os.path.basename(reference_input_path.split(".")[0]) + "_"+ \
     d.strftime("%m%d%y")
