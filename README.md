@@ -57,7 +57,7 @@ If the user inputs "n", then **nema_blast.py** will ask the user to manually inp
     Set right extend gap score: 
     Divide score by length of shorter sequence? [y/n]: 
     
-**nema_blast.py** will create a new directory containing a subdirectory named **alignments** which houses formatted individual alignments as well as a file named **summary.csv** which summarizes the best matches and includes additional information regarding sequence length and alignment score.
+**nema_blast.py** will create a new directory containing a subdirectory named **alignments**. The subdirectory **alignments** houses formatted individual alignments as well as a file named **summary.csv** which summarizes the best matches and includes additional information regarding sequence length and alignment score.
 
 Here is an example of using **nema_blast.py** to search the **test_data** query directory against the reference file **reference.fa**. 
     
