@@ -12,6 +12,11 @@ Given a list of sequences to be queried and another list of sequences to be refe
 * [Biopython](https://biopython.org/wiki/Download)
 ## Installation
     git clone https://github.com/AndersenLab/nema_blast.git
+    cd nema_blast
+    
+    # test
+    python3 nema_blast.py test_data
+    
 ## Usage
 **nema_blast.py** analyzes two files/directories. As such, **nema_blast.py** expects to receive two files/directory paths when called.
 
@@ -27,7 +32,13 @@ Alternatively, the user can choose to call **nema_blast.py** without additional 
     
     python3 nema_blast.py
 
-When the program begins, the user will be prompted to provide additional information regarding the alignment scoring system.
+**nema_blast.py** uses by default the "EMBOSS Needle Default Scoring System" which is explained in the next section. It also by default considers all reverse complements of the reference sequences. If the user adds a "-m" argument at the end, they will be able to modify the scoring system:
+
+    python3 nema_blast.py <query_path> <reference_path> -m
+    # or
+    python3 nema_blast.py <query_path> -m
+
+In this case, when the program begins, the user will be prompted to provide additional information regarding the alignment scoring system.
 
 First, **nema_blast.py** will ask the user whether it should consider reverse complements of the reference sequences. If the user inputs "y", then **nema_blast.py** will consider, in addition to the existing sequences, the reverse complement of every sequence present in the reference file/directory.
 If the strand/direction of all sequences in the reference sequence list are known, the user should not input "y" in order to speed up the program's runtime.
@@ -61,7 +72,7 @@ If the user inputs "n", then **nema_blast.py** will ask the user to manually inp
 
 Here is an example of using **nema_blast.py** to search the **test_data** query directory against the reference file **reference.fa**. 
     
-    python3 nema_blast.py test_data bin/reference.fa
+    python3 nema_blast.py test_data
     
 ## Scoring
 Please reference the [Biopython documentation](http://biopython.org/DIST/docs/tutorial/Tutorial.html) for information regarding pairwise alignment scoring. It is important to understand how mismatches and gaps are handled by Biopython. Information can be found in section 6.6.2 and section 6.7.

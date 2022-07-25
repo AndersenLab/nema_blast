@@ -340,6 +340,7 @@ def bestMatch(query_seqrec : SeqRecord,
     output.append(best_score)
 
     name = query_seqrec.id + "_vs_" + best_seqrec.id + ".txt"
+    name = name.replace("/", "_")
     alignment = getAlignment(query_seqrec.seq, best_seqrec.seq)
     alignment_list.append([name, alignment])
 
