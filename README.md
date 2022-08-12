@@ -123,3 +123,7 @@ Details of the [BLASTN default local scoring system](http://biopython.org/DIST/d
 * left open gap: -7
 * left extend gap: -2
 * local/global alignment: local
+
+## Citation
+
+Cite this repo: [![DOI](https://zenodo.org/badge/513648584.svg)](https://zenodo.org/badge/latestdoi/513648584)
